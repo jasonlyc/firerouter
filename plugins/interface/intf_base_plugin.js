@@ -104,7 +104,6 @@ class InterfaceBasePlugin extends Plugin {
       // remove related policy routing rules
       await routing.removeInterfaceRoutingRules(this.name);
       await routing.removeInterfaceGlobalRoutingRules(this.name);
-      await routing.removeInterfaceGlobalLocalRoutingRules(this.name);
 
       if (this.isWAN()) {
         // considered as WAN interface, remove access to "routable"
@@ -306,8 +305,6 @@ class InterfaceBasePlugin extends Plugin {
         return;
       await routing.createInterfaceRoutingRules(this.name, this.networkConfig.noSelfRoute);
       await routing.createInterfaceGlobalRoutingRules(this.name);
-      if (this.isLAN())
-        await routing.createInterfaceGlobalLocalRoutingRules(this.name);
     }
 
     if (this.isWAN()) {

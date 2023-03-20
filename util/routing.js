@@ -275,12 +275,10 @@ async function initializeInterfaceRoutingTables(intf) {
 async function createInterfaceRoutingRules(intf, noSelfRoute = false) {
   // self route on specific types of WAN interface may be undesired and will cause infinite loop, e.g., docker network with VPN client containers
   await createPolicyRoutingRule("all", intf, `${intf}_local`, 501);
-  await createPolicyRoutingRule("all", "lo", `${intf}_local`, 501);
   await createPolicyRoutingRule("all", intf, `${intf}_static`, 3001);
   if (!noSelfRoute)
     await createPolicyRoutingRule("all", intf, `${intf}_default`, 8001);
   await createPolicyRoutingRule("all", intf, `${intf}_local`, 501, null, 6);
-  await createPolicyRoutingRule("all", "lo", `${intf}_local`, 501, null, 6);
   await createPolicyRoutingRule("all", intf, `${intf}_static`, 3001, null, 6);
   if (!noSelfRoute)
     await createPolicyRoutingRule("all", intf, `${intf}_default`, 8001, null, 6);
@@ -288,11 +286,9 @@ async function createInterfaceRoutingRules(intf, noSelfRoute = false) {
 
 async function removeInterfaceRoutingRules(intf) {
   await removePolicyRoutingRule("all", intf, `${intf}_local`, 501).catch((err) => {});
-  await removePolicyRoutingRule("all", "lo", `${intf}_local`, 501).catch((err) => {});
   await removePolicyRoutingRule("all", intf,  `${intf}_static`, 3001).catch((err) => {});
   await removePolicyRoutingRule("all", intf, `${intf}_default`, 8001).catch((err) => {});
   await removePolicyRoutingRule("all", intf, `${intf}_local`, 501, null, 6).catch((err) => {});
-  await removePolicyRoutingRule("all", "lo", `${intf}_local`, 501, null, 6).catch((err) => {});
   await removePolicyRoutingRule("all", intf,  `${intf}_static`, 3001, null, 6).catch((err) => {});
   await removePolicyRoutingRule("all", intf, `${intf}_default`, 8001, null, 6).catch((err) => {});
 }
